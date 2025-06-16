@@ -26,21 +26,104 @@ export default function PhotoPage() {
 
   const fav = favorites.some((p) => p.id === photo.id)
 
+  const downloadLink = photo.urls.full || photo.urls.regular
+
   return (
-    <div style={{ maxWidth: 800, margin: '0 auto' }}>
+    <div className="local-full">
+      {/* background */}
       <img
-        src={photo.urls.regular}
-        srcSet={`${photo.urls.regular} 1x, ${photo.urls.full} 2x`}
-        alt={photo.alt_description || ''}
-        style={{ width: '100%', borderRadius: 8 }}
+        src={photo.urls.full || photo.urls.regular}
+        alt="bg"
+        className="local-bg"
+        style={{
+          position: 'fixed',
+          top: '110px',
+          left: 0,
+          right: 0,
+          bottom: '200px',
+          width: '100%',
+          height: 'auto',
+          objectFit: 'cover',
+          filter: 'grayscale(100%) brightness(40%)',
+          zIndex: -1
+        }}
       />
-      <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ marginBottom: 4 }}>{photo.alt_description || 'Без описания'}</h2>
-          <p>Автор: {photo.user.name}</p>
+
+      <div style={{ maxWidth: '1482px', margin: '0 auto', position: 'relative', paddingTop: '40px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px'
+          }}
+        >
+          {/* left info */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {photo.user.profile_image && (
+              <img
+                src={photo.user.profile_image.small}
+                alt={photo.user.name}
+                style={{ width: 60, height: 60, borderRadius: '50%' }}
+              />
+            )}
+            <div>
+              <div className="info-name" style={{ fontFamily: 'inherit', fontWeight: 400, fontSize: '30px', color: '#f2f2f2' }}>
+                {photo.user.name}
+              </div>
+              <div className="info-nick" style={{ fontFamily: 'inherit', fontWeight: 400, fontSize: '18px', color: '#f2f2f2' }}>
+                @{photo.user.name.toLowerCase().replace(/\s+/g, '')}
+              </div>
+            </div>
+          </div>
+
+          {/* right controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <button
+              onClick={() => toggleFavorite(photo)}
+              className={`heart-btn${fav ? ' added' : ''}`}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+            >
+              <img src={`${import.meta.env.BASE_URL}love.svg`} alt="fav" width="58" height="58" />
+            </button>
+
+            <a
+              href={downloadLink}
+              download
+              className="download-btn"
+              style={{
+                border: '1px solid #fff200',
+                borderRadius: '8px',
+                width: '206px',
+                height: '49px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+                background: '#fff200',
+                boxShadow: '0 0 4px 0 rgba(0,0,0,0.25)',
+                color: '#000',
+                fontFamily: 'inherit',
+                fontWeight: 400,
+                fontSize: '20px',
+                textDecoration: 'none'
+              }}
+            >
+              <img src={`${import.meta.env.BASE_URL}download.svg`} alt="download" width="26" height="23" />
+              <span className="dtext">Download</span>
+            </a>
+          </div>
         </div>
-        <button onClick={() => toggleFavorite(photo)}>{fav ? 'Убрать из избранного' : 'В избранное'}</button>
+
+        <img
+          src={photo.urls.regular}
+          srcSet={`${photo.urls.regular} 1x, ${photo.urls.full} 2x`}
+          alt={photo.alt_description || ''}
+          style={{ width: '1482px', maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
+        />
       </div>
+
+      <div style={{ height: '200px' }} />
     </div>
   )
 } 

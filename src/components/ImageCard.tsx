@@ -22,15 +22,13 @@ export default function ImageCard({ photo }: { photo: Photo }) {
           position: 'absolute',
           top: 8,
           right: 8,
-          background: 'rgba(255,255,255,0.8)',
+          padding: 0,
+          background: 'transparent',
           border: 'none',
-          borderRadius: '50%',
-          width: 32,
-          height: 32,
           cursor: 'pointer'
         }}
       >
-        {fav ? '❤️' : '🤍'}
+        <img src={`${import.meta.env.BASE_URL}love.svg`} alt={fav ? 'Remove from favorites' : 'Add to favorites'} width={32} height={32} />
       </button>
     </div>
   )

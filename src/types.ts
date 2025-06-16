@@ -8,5 +8,10 @@ export interface Photo {
   }
   user: {
     name: string
+    profile_image?: {
+      small: string
+      medium: string
+      large: string
+    }
   }
 } 
